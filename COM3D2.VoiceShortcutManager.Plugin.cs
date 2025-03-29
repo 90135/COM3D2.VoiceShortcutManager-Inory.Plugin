@@ -15,8 +15,6 @@ using UnityInjector.Attributes;
 音声認識で夜伽コマンド等を制御 ＋ ギアメニューにショートカットキーボタン配置 ＋ テンキー表示
 
 com3d2.vibeyourmaid.plugin.dll (ver2.1.0.0以降) が必要
-build :
-C:\Windows\Microsoft.NET\Framework\v3.5\csc.exe /t:library /lib:"..\COM3D2\Sybaris" /lib:"..\COM3D2\Sybaris\UnityInjector" /lib:"..\COM3D2\COM3D2x64_Data\Managed" /r:UnityEngine.dll /r:UnityEngine.VR.dll /r:UnityInjector.dll /r:Assembly-CSharp.dll /r:Assembly-CSharp-firstpass.dll /r:com3d2.vibeyourmaid.plugin.dll COM3D2.VoiceShortcutManager.Plugin.cs VoiceConfig.cs VymConfig.cs GearMenu.cs
 */
 
 #if COM3D2_5
