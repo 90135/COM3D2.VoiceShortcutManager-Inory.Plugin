@@ -653,6 +653,27 @@ namespace COM3D2.VoiceShortcutManager.Plugin
             }
         }
 
+        // #901 setup shapeKey
+        private void setShapeKeyKeywords()
+        {
+            foreach (ShapeKeyInfo shapeKeyInfo in voiceCfg.shapeKeyList)
+            {
+                string[] voices = shapeKeyInfo.voice;
+                foreach (string voice in voices)
+                {
+                    if (keywords.ContainsKey(voice)) continue;
+                    string k = voice; //スコープ対策
+                    keywords.Add(voice, () =>
+                    {
+                        Debug.Log("Voice setShapeKey : " + k + " -> " + shapeKeyInfo.shapeKey + " : " + shapeKeyInfo.value);
+                        setShapeKey(shapeKeyInfo.shapeKey, shapeKeyInfo.value);
+                    });
+                }
+            }
+        }
+
+
+
         //音声設定ファイル読み込み
         private void loadVymConfig()
         {
@@ -885,6 +906,9 @@ namespace COM3D2.VoiceShortcutManager.Plugin
 
             //VYM連携
             setVymKeywoards();
+
+            // #901 ShapeKeys
+            setShapeKeyKeywords();
 
             //DEBUG
             if (!keywords.ContainsKey("テスト"))
@@ -2560,7 +2584,6 @@ namespace COM3D2.VoiceShortcutManager.Plugin
             }
             //#109 modified
 
-
             //男脱衣
 #if COM3D2_5
 			foreach (string keyword in voiceCfg.manDressAll) {
@@ -3738,6 +3761,40 @@ namespace COM3D2.VoiceShortcutManager.Plugin
 #endif
 
         #endregion
+
+
+
+
+        ////////////////////////////////////////////////////////////////
+        /// ShapeKey #901
+        #region ShapeKey
+
+        // I don't know how to hook method in unityInject, so I go this way.
+        public void setShapeKey(string shapeKey, float value)
+        {
+            foreach (Maid maid in getUndressMaidList())
+            {
+                if (maid.Visible)
+                {
+                    for (int i = 0; i < maid.body0.goSlot.Count; i++)
+                    {
+                        TMorph morph = maid.body0.goSlot[i].morph;
+                        {
+                            if (morph != null && morph.Contains(shapeKey))
+                            {
+                                int hash = (int)morph.hash[shapeKey];
+
+                                morph.SetBlendValues(hash, value);
+                                morph.FixBlendValues();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        #endregion
+
 
         ////////////////////////////////////////////////////////////////
         // テンキーウィンドウ

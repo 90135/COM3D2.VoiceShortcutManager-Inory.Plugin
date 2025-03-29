@@ -99,6 +99,25 @@ namespace COM3D2.VoiceShortcutManager.Plugin
         }
     }
 
+    // # 901 modify
+    public class ShapeKeyInfo
+    {
+        public string shapeKey; //シェイプキー名
+        public float value; //値
+        public string[] voice; //エイリアス名
+        public ShapeKeyInfo()
+        {
+        }
+        public ShapeKeyInfo(string shapeKey, float value, string[] voice)
+        {
+            this.shapeKey = shapeKey;
+            this.value = value;
+            this.voice = voice;
+        }
+    }
+    // # 901 modify
+
+
     public class VoiceConfig
     {
         //コンストラクタ XML読み込みで必要
@@ -217,6 +236,9 @@ namespace COM3D2.VoiceShortcutManager.Plugin
         //夜伽用音声別名リスト
         public List<YotogiVoiceInfo> yotogiVoiceList = new List<YotogiVoiceInfo>();
 
+        // # 901 modify
+        public List<ShapeKeyInfo> shapeKeyList = new List<ShapeKeyInfo>();
+
         private void addYotogiList(string command, string[] keywords)
         {
             addYotogiList(command, keywords, null);
@@ -264,6 +286,25 @@ namespace COM3D2.VoiceShortcutManager.Plugin
                 new PropInfo[] { new PropInfo("lip", "_i_lip_del.menu", true) }, null));
             propVoiceList.Add(new PropVoiceInfo(new string[] { "リップ戻す" },
                 new PropInfo[] { new PropInfo("lip", null, true) }, null));
+
+
+            // #901
+            // shapeKey example
+            shapeKeyList.Add(new ShapeKeyInfo
+            {
+                shapeKey = "nipple_kupa",
+                value = 100,
+                voice = new string[] { "乳穴最大" ,"乳穴扩张","打开乳穴"}
+            });
+
+            shapeKeyList.Add(new ShapeKeyInfo
+            {
+                shapeKey = "nipple_kupa",
+                value = 0,
+                voice = new string[] { "乳穴最小","关闭乳穴","闭合乳穴"  }
+            });
+
+
 
             //夜伽コマンド
             //汎用コマンドより優先するもの
