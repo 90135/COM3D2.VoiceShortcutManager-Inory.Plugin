@@ -665,13 +665,13 @@ namespace COM3D2.VoiceShortcutManager.Plugin
                     string k = voice; //スコープ対策
                     keywords.Add(voice, () =>
                     {
-                        Debug.Log("Voice setShapeKey : " + k + " -> " + shapeKeyInfo.shapeKey + " : " + shapeKeyInfo.value);
+                        Debug.Log("Voice setShapeKey : " + k + " -> " + shapeKeyInfo.shapeKey + " : " +
+                                  shapeKeyInfo.value);
                         setShapeKey(shapeKeyInfo.shapeKey, shapeKeyInfo.value);
                     });
                 }
             }
         }
-
 
 
         //音声設定ファイル読み込み
@@ -3763,27 +3763,32 @@ namespace COM3D2.VoiceShortcutManager.Plugin
         #endregion
 
 
-
-
         ////////////////////////////////////////////////////////////////
         /// ShapeKey #901
+
         #region ShapeKey
 
-        // I don't know how to hook method in unityInject, so I go this way.
+        // I don't know how to hook method in UnityInject, so I go this way.
         public void setShapeKey(string shapeKey, float value)
         {
             foreach (Maid maid in getUndressMaidList())
             {
+                if (!maid.Visible) continue;
+
+                var body = maid.body0;
+                if (body is null) continue;
+
                 if (maid.Visible)
                 {
-                    for (int i = 0; i < maid.body0.goSlot.Count; i++)
+                    for (int i = 0; i < body.goSlot.Count; i++)
                     {
-                        TMorph morph = maid.body0.goSlot[i].morph;
-                        {
-                            if (morph != null && morph.Contains(shapeKey))
-                            {
-                                int hash = (int)morph.hash[shapeKey];
+                        TMorph morph = body.goSlot[i].morph;
+                        if (morph?.hash == null) continue;
 
+                        if (morph.Contains(shapeKey))
+                        {
+                            if (morph.hash[shapeKey] is int hash)
+                            {
                                 morph.SetBlendValues(hash, value);
                                 morph.FixBlendValues();
                             }

@@ -105,9 +105,11 @@ namespace COM3D2.VoiceShortcutManager.Plugin
         public string shapeKey; //シェイプキー名
         public float value; //値
         public string[] voice; //エイリアス名
+
         public ShapeKeyInfo()
         {
         }
+
         public ShapeKeyInfo(string shapeKey, float value, string[] voice)
         {
             this.shapeKey = shapeKey;
@@ -294,16 +296,15 @@ namespace COM3D2.VoiceShortcutManager.Plugin
             {
                 shapeKey = "nipple_kupa",
                 value = 100,
-                voice = new string[] { "乳穴最大" ,"乳穴扩张","打开乳穴"}
+                voice = new string[] { "乳穴最大", "乳穴扩张", "打开乳穴" }
             });
 
             shapeKeyList.Add(new ShapeKeyInfo
             {
                 shapeKey = "nipple_kupa",
                 value = 0,
-                voice = new string[] { "乳穴最小","关闭乳穴","闭合乳穴"  }
+                voice = new string[] { "乳穴最小", "关闭乳穴", "闭合乳穴" }
             });
-
 
 
             //夜伽コマンド
